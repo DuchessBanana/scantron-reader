@@ -16,6 +16,15 @@ public class OpticalMarkReaderMain {
         (4).  Output 2 csv files
          */
 
+        /*METHODS-PSEUDOCODE*/
+
+        //loadImage() -
+        //findBubbled() -
+        //getAnswerFromKey() ? -
+        //getScore() -
+        //getRightQuestions() -
+        //getWrongQuestions() -
+        //
     }
 
     private static String fileChooser() {
