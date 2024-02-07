@@ -14,6 +14,8 @@ public class FilterTest {
         SaveAndDisplayExample(2);
 
         RunTheFilter();
+        ArrayList<PImage> pages = PDFHelper.getPImagesFromPdf("assets/OfficialOMRSampleDoc.pdf");
+        System.out.println(pages.size());
     }
 
     private static void RunTheFilter() {

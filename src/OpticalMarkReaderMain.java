@@ -1,9 +1,16 @@
 import FileIO.PDFHelper;
+
+import FileIO.PDFHelper;
+import core.DImage;
+import processing.core.PImage;
+
+import FileIO.PDFHelper;
 import core.DImage;
 import processing.core.PImage;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.ArrayList;
 
 // Author: David Dobervich (this is my edit)
@@ -32,9 +39,9 @@ public class OpticalMarkReaderMain {
 
         //findBubbled() -
         //getAnswerFromKey() ? -
-        //getScore() -
-        //getRightQuestions() -
-        //getWrongQuestions() -
+        //getScore() - int
+        //getRightQuestions() - ArrayList
+        //getWrongQuestions() - ArrayList
         //
     }
 
