@@ -1,5 +1,10 @@
+import FileIO.PDFHelper;
+import core.DImage;
+import processing.core.PImage;
+
 import javax.swing.*;
 import java.io.File;
+import java.util.ArrayList;
 
 // Author: David Dobervich (this is my edit)
 // ANOTHER EDIT.
@@ -16,9 +21,15 @@ public class OpticalMarkReaderMain {
         (4).  Output 2 csv files
          */
 
+        ArrayList<PImage> pages = PDFHelper.getPImagesFromPdf("assets/OfficialOMRSampleDoc.pdf");
+        for (int i = 0; i < pages.size(); i++) {
+            DImage img = new DImage(pages.get(i));
+        }
+
+        //csv file stuff
+
         /*METHODS-PSEUDOCODE*/
 
-        //loadImage() -
         //findBubbled() -
         //getAnswerFromKey() ? -
         //getScore() -

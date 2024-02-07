@@ -20,14 +20,16 @@ public class DisplayInfoFilter implements PixelFilter {
         int whiteCount = 0;
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
-                if (grid[r][c] < 10) blackCount++;
-                if (grid[r][c] > 240) whiteCount++;
+                if (grid[r][c] < 20) blackCount++;
+                if (grid[r][c] > 235) whiteCount++;
             }
         }
 
         System.out.println(blackCount + " nearly black pixels and " + whiteCount + " nearly white pixels");
         System.out.println("----------------------------------------");
         System.out.println("If you want, you could output information to a file instead of printing it.");
+
+        img.setPixels(grid);
 
         return img;
     }

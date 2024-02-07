@@ -5,18 +5,20 @@ import core.DImage;
 import core.DisplayWindow;
 import processing.core.PImage;
 
+import java.util.ArrayList;
+
 public class FilterTest {
     public static String currentFolder = System.getProperty("user.dir") + "/";
 
     public static void main(String[] args) {
-        // SaveAndDisplayExample();
+        SaveAndDisplayExample(2);
 
         RunTheFilter();
     }
 
     private static void RunTheFilter() {
         System.out.println("Loading pdf....");
-        PImage in = PDFHelper.getPageImage("assets/omrtest.pdf",1);
+        PImage in = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",1);
         DImage img = new DImage(in);       // you can make a DImage from a PImage
 
         System.out.println("Running filter on page 1....");
@@ -26,10 +28,10 @@ public class FilterTest {
                                    // the information you want
     }
 
-    private static void SaveAndDisplayExample() {
-        PImage img = PDFHelper.getPageImage("assets/omrtest.pdf",1);
-        img.save(currentFolder + "assets/page1.png");
+    private static void SaveAndDisplayExample(int page) {
+        PImage img = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",page);
+        img.save(currentFolder +  "assets/page" + page + ".png");
 
-        DisplayWindow.showFor("assets/page1.png");
+        DisplayWindow.showFor("assets/page" + page + ".png");
     }
 }
