@@ -1,6 +1,7 @@
 import FileIO.PDFHelper;
 
 import FileIO.PDFHelper;
+import Filters.MarkReader;
 import core.DImage;
 import processing.core.PImage;
 
@@ -31,7 +32,12 @@ public class OpticalMarkReaderMain {
         ArrayList<PImage> pages = PDFHelper.getPImagesFromPdf("assets/OfficialOMRSampleDoc.pdf");
         for (int i = 0; i < pages.size(); i++) {
             DImage img = new DImage(pages.get(i));
+            MarkReader filter = new MarkReader();
+            filter.processImage(img);
+            findBubbled(img);
         }
+
+
 
         //csv file stuff
 
@@ -43,6 +49,10 @@ public class OpticalMarkReaderMain {
         //getRightQuestions() - ArrayList
         //getWrongQuestions() - ArrayList
         //
+    }
+
+    private static void findBubbled(DImage img) {
+        //TODO: plug in darkness methods
     }
 
     private static String fileChooser() {
