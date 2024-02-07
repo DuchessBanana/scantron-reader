@@ -1,3 +1,5 @@
+import FileIO.PDFHelper;
+
 import javax.swing.*;
 import java.io.File;
 
@@ -16,14 +18,15 @@ public class OpticalMarkReaderMain {
         (4).  Output 2 csv files
          */
 
+
         /*METHODS-PSEUDOCODE*/
 
         //loadImage() -
         //findBubbled() -
-        //getAnswerFromKey() ? -
-        //getScore() -
-        //getRightQuestions() -
-        //getWrongQuestions() -
+        //getAnswerFromKey() ? - 
+        //getScore() - int
+        //getRightQuestions() - ArrayList
+        //getWrongQuestions() - ArrayList
         //
     }
 
