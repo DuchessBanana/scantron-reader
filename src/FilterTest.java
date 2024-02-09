@@ -4,11 +4,13 @@ import core.DImage;
 import core.DisplayWindow;
 import processing.core.PImage;
 
+import java.util.ArrayList;
+
 public class FilterTest {
     public static String currentFolder = System.getProperty("user.dir") + "/";
 
     public static void main(String[] args) {
-        SaveAndDisplayExample(2);
+        SaveAndDisplayExample(1);
 
         //RunTheFilter();
         //ArrayList<PImage> pages = PDFHelper.getPImagesFromPdf("assets/OfficialOMRSampleDoc.pdf");
@@ -29,8 +31,8 @@ public class FilterTest {
 
     private static void SaveAndDisplayExample(int page) {
         PImage img = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",page);
-        img.save(currentFolder +  "assets/page1" + page + ".png");
+        img.save(currentFolder +  "assets/page" + page + ".png");
 
-        DisplayWindow.showFor("assets/page1" + page + ".png");
+        DisplayWindow.showFor("assets/page" + page + ".png");
     }
 }

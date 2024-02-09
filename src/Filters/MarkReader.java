@@ -7,7 +7,12 @@ public class MarkReader implements PixelFilter {
 
     private int startR = 109;
     private int startC = 105;
-    private int distBetween = 6;
+    private int colDistBetween = 6;
+    private int height = 19;
+    private int width = 19;
+    private int rowDistBetween = 30;
+    private int rowSpaces = 11;
+    private int colSpaces = 4;
     public MarkReader() {
         System.out.println("Filter running...");
     }
@@ -19,8 +24,10 @@ public class MarkReader implements PixelFilter {
         grid = crop(grid, 0, 0, 700, 700);
 
         System.out.println("Image is " + grid.length + " by "+ grid[0].length);
-        int question1 = darknessPerQuestion(grid);
+        int question1 = darknessPerQuestion(grid, 1);
+        int question2 = darknessPerQuestion(grid, 2);
         System.out.println(getLetterAnswer(question1));
+        System.out.println(getLetterAnswer(question2));
 
         /*
 
@@ -38,23 +45,26 @@ public class MarkReader implements PixelFilter {
         return img;
     }
 
-    private int darknessPerQuestion(short[][] grid) {
+    private int darknessPerQuestion(short[][] grid, int question) {
         double answer = Double.MAX_VALUE;
         int choice = 0;
-        for (int i = 0; i < 5; i++) {
-            double circleDarkness = getAverageDarkness(startR, startC, 19, 20, grid);
-            if (circleDarkness < answer) {
-                choice = i;
+        double choice1 = getAverageDarkness(startR, startC, width, height, grid);
+        int colSpacing = 0;
+            for (int j = 0; j < 5; j++) {
+                double circleDarkness = getAverageDarkness(startR +((height + rowDistBetween)*(question-1)), startC + ((colDistBetween * colSpacing) + (width * colSpacing)), width, height, grid);
+                colSpacing++;
+                if (circleDarkness < choice1) {
+                    choice = j;
+                }
             }
-        }
         return choice;
     }
 
+
     private double getAverageDarkness(int startR, int startC, int width, int height, short[][] grid) {
         double darkness = 0;
-        int spacing = 4;
         for (int i = startR; i < startR+height; i++) {
-            for (int j = startC; j < startC+(distBetween*spacing) + width-1; j++) {
+            for (int j = startC; j < startC+ width; j++) {
                 darkness += grid[i][j];
             }
         }
@@ -62,19 +72,19 @@ public class MarkReader implements PixelFilter {
     }
 
     private String getLetterAnswer(int question){
-        if(question == 1){
+        if(question == 0){
             return "A";
         }
-        else if(question == 2){
+        else if(question == 1){
             return "B";
         }
-        else if(question == 3){
+        else if(question == 2){
             return "C";
         }
-        else if(question == 4){
+        else if(question == 3){
             return "D";
         }
-        else if(question == 5){
+        else if(question == 4){
             return "E";
         }
         return "NO ANSWER";
