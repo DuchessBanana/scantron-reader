@@ -12,7 +12,7 @@ public class FilterTest {
     public static void main(String[] args) {
         SaveAndDisplayExample(1);
 
-        //RunTheFilter();
+        RunTheFilter();
         //ArrayList<PImage> pages = PDFHelper.getPImagesFromPdf("assets/OfficialOMRSampleDoc.pdf");
         //System.out.println(pages.size());
     }

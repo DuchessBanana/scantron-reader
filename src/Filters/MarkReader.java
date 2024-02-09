@@ -24,10 +24,10 @@ public class MarkReader implements PixelFilter {
         grid = crop(grid, 0, 0, 700, 700);
 
         System.out.println("Image is " + grid.length + " by "+ grid[0].length);
-        int question1 = darknessPerQuestion(grid, 1);
-        int question2 = darknessPerQuestion(grid, 2);
-        System.out.println(getLetterAnswer(question1));
-        System.out.println(getLetterAnswer(question2));
+        for (int i = 0; i < 12; i++) {
+            int question = darknessPerQuestion(grid, i);
+            System.out.println(getLetterAnswer(question));
+        }
 
         /*
 
@@ -51,7 +51,7 @@ public class MarkReader implements PixelFilter {
         double choice1 = getAverageDarkness(startR, startC, width, height, grid);
         int colSpacing = 0;
             for (int j = 0; j < 5; j++) {
-                double circleDarkness = getAverageDarkness(startR +((height + rowDistBetween)*(question-1)), startC + ((colDistBetween * colSpacing) + (width * colSpacing)), width, height, grid);
+                double circleDarkness = getAverageDarkness(startR +((height + rowDistBetween)*question), startC + ((colDistBetween * colSpacing) + (width * colSpacing)), width, height, grid);
                 colSpacing++;
                 if (circleDarkness < choice1) {
                     choice = j;

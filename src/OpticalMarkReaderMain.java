@@ -1,4 +1,7 @@
 import FileIO.PDFHelper;
+import Filters.MarkReader;
+import core.DImage;
+import processing.core.PImage;
 
 import javax.swing.*;
 import java.io.File;
@@ -7,8 +10,10 @@ import java.io.File;
 // ANOTHER EDIT.
 public class OpticalMarkReaderMain {
     public static void main(String[] args) {
-        String pathToPdf = fileChooser();
-        System.out.println("Loading pdf at " + pathToPdf);
+        PImage in = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",1);
+        DImage img = new DImage(in);
+
+        
 
         /*
         Your code here to...
