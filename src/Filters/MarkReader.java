@@ -13,36 +13,30 @@ public class MarkReader implements PixelFilter {
     private int rowDistBetween = 30;
     private int rowSpaces = 11;
     private int colSpaces = 4;
+    short[][] grid;
     public MarkReader() {
         System.out.println("Filter running...");
     }
 
     @Override
     public DImage processImage(DImage img) {
-        short[][] grid = img.getBWPixelGrid();
-
+        grid = img.getBWPixelGrid();
         grid = crop(grid, 0, 0, 700, 700);
-
         System.out.println("Image is " + grid.length + " by "+ grid[0].length);
-        int question1 = darknessPerQuestion(grid, 1);
-        int question2 = darknessPerQuestion(grid, 2);
-        System.out.println(getLetterAnswer(question1));
-        System.out.println(getLetterAnswer(question2));
-
-        /*
-
-         box1 = getAverageDarkness( r, c, w, h, grid );
-         box2 = getAveragfeDarknes( r, c + a bit, w, h, grid);
-         etc...
-
-         find which box is darest
-         print the answer.
-         */
-
 
         img.setPixels(grid);
 
         return img;
+    }
+
+    public String getStudentAnswers() {
+        String output = "";
+        for (int i = 1; i < 13; i++) {
+            int currQuestion = darknessPerQuestion(grid, i);
+//            System.out.println(getLetterAnswer(currQuestion));
+            output += "Question " + i + " answer: " + getLetterAnswer(currQuestion) + "\n";
+        }
+        return output;
     }
 
     private int darknessPerQuestion(short[][] grid, int question) {
