@@ -29,8 +29,8 @@ public class FilterTest {
 
     private static void SaveAndDisplayExample(int page) {
         PImage img = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",page);
-        img.save(currentFolder +  "assets/page" + page + ".png");
+        img.save(currentFolder +  "assets/page1" + page + ".png");
 
-        DisplayWindow.showFor("assets/page" + page + ".png");
+        DisplayWindow.showFor("assets/page1" + page + ".png");
     }
 }

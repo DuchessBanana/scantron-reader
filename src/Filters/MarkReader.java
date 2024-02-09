@@ -5,7 +5,7 @@ import core.DImage;
 
 public class MarkReader implements PixelFilter {
 
-    private int startR = 120;
+    private int startR = 109;
     private int startC = 105;
     private int distBetween = 6;
     public MarkReader() {
@@ -16,11 +16,11 @@ public class MarkReader implements PixelFilter {
     public DImage processImage(DImage img) {
         short[][] grid = img.getBWPixelGrid();
 
-        grid = crop(grid, 0, 0, 500, 500);
+        grid = crop(grid, 0, 0, 700, 700);
 
         System.out.println("Image is " + grid.length + " by "+ grid[0].length);
         int question1 = darknessPerQuestion(grid);
-        System.out.println(question1);
+        System.out.println(getLetterAnswer(question1));
 
         /*
 
@@ -52,14 +52,32 @@ public class MarkReader implements PixelFilter {
 
     private double getAverageDarkness(int startR, int startC, int width, int height, short[][] grid) {
         double darkness = 0;
-        int spacing = 0;
-        for (int i = startR; i < startR+(distBetween*spacing)+height; i++) {
-            for (int j = startC; j < startC + width; j++) {
+        int spacing = 4;
+        for (int i = startR; i < startR+height; i++) {
+            for (int j = startC; j < startC+(distBetween*spacing) + width-1; j++) {
                 darkness += grid[i][j];
-                spacing++;
             }
         }
         return darkness/(height*width);
+    }
+
+    private String getLetterAnswer(int question){
+        if(question == 1){
+            return "A";
+        }
+        else if(question == 2){
+            return "B";
+        }
+        else if(question == 3){
+            return "C";
+        }
+        else if(question == 4){
+            return "D";
+        }
+        else if(question == 5){
+            return "E";
+        }
+        return "NO ANSWER";
     }
 
     private short[][] crop(short[][] grid, int r1, int c1, int r2, int c2) {
