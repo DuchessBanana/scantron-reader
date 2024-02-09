@@ -3,6 +3,10 @@ import Filters.MarkReader;
 import core.DImage;
 import core.DisplayWindow;
 import processing.core.PImage;
+import Filters.MarkReader;
+import core.DImage;
+import processing.core.PImage;
+
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
