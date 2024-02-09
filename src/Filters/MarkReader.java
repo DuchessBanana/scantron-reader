@@ -5,17 +5,20 @@ import core.DImage;
 
 public class MarkReader implements PixelFilter {
 
-    private int startR = 109;
-    private int startC = 105;
-    private int colDistBetween = 6;
-    private int height = 19;
-    private int width = 19;
-    private int rowDistBetween = 30;
-    private int rowSpaces = 11;
-    private int colSpaces = 4;
+    private int startR, startC, colDistBetween, rowDistBetween, height, width;
+    private int questions;
+    private int choices;
     short[][] grid;
-    public MarkReader() {
+    public MarkReader(int numQuestions, int numChoices) {
         System.out.println("Filter running...");
+        startR = 109;
+        startC = 105;
+        height = 19;
+        width = 19;
+        rowDistBetween = 30;
+        colDistBetween = 6;
+        this.questions = numQuestions;
+        this.choices = numChoices;
     }
 
     @Override
@@ -40,19 +43,23 @@ public class MarkReader implements PixelFilter {
     }
 
     private int darknessPerQuestion(short[][] grid, int question) {
-        double answer = Double.MAX_VALUE;
+        double lowestSoFar = getAverageDarkness(startR, startC, width, height, grid);
         int choice = 0;
         double choice1 = getAverageDarkness(startR, startC, width, height, grid);
         int colSpacing = 0;
-            for (int j = 0; j < 5; j++) {
-                double circleDarkness = getAverageDarkness(startR +((height + rowDistBetween)*(question-1)), startC + ((colDistBetween * colSpacing) + (width * colSpacing)), width, height, grid);
-                colSpacing++;
-                if (circleDarkness < choice1) {
-                    choice = j;
-                }
+        for (int j = 0; j < choices; j++) {
+            double circleDarkness = getAverageDarkness(startR +((height + rowDistBetween)*question), startC + ((colDistBetween * colSpacing) + (width * colSpacing)), width, height, grid);
+            colSpacing++;
+            if(circleDarkness < lowestSoFar){
+                lowestSoFar = circleDarkness;
             }
+            if (circleDarkness < choice1 && circleDarkness <= lowestSoFar) {
+                choice = j;
+            }
+        }
         return choice;
     }
+
 
 
     private double getAverageDarkness(int startR, int startC, int width, int height, short[][] grid) {
