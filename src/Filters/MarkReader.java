@@ -3,6 +3,8 @@ package Filters;
 import Interfaces.PixelFilter;
 import core.DImage;
 
+import java.util.ArrayList;
+
 public class MarkReader implements PixelFilter {
 
     private int startR, startC, colDistBetween, rowDistBetween, height, width;
@@ -32,14 +34,16 @@ public class MarkReader implements PixelFilter {
         return img;
     }
 
-    public String getStudentAnswers() {
+    public ArrayList<String> getStudentAnswers() {
+        ArrayList<String> answers = new ArrayList<>();
         String output = "";
         for (int i = 1; i < 13; i++) {
-            int currQuestion = darknessPerQuestion(grid, i);
+            int currQuestion = darknessPerQuestion(grid, i-1);
 //            System.out.println(getLetterAnswer(currQuestion));
             output += "Question " + i + " answer: " + getLetterAnswer(currQuestion) + "\n";
+            answers.add(getLetterAnswer(currQuestion));
         }
-        return output;
+        return answers;
     }
 
     private int darknessPerQuestion(short[][] grid, int question) {
@@ -59,7 +63,6 @@ public class MarkReader implements PixelFilter {
         }
         return choice;
     }
-
 
 
     private double getAverageDarkness(int startR, int startC, int width, int height, short[][] grid) {

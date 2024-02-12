@@ -23,9 +23,14 @@ public class OpticalMarkReaderMain {
             filter.processImage(img);
 //            displayPage(i+1);
             try {
-                writeDataToFile("scores.csv", "Student " + i + "'s Answers" + "" +
-                        "\n");
-                writeDataToFile("scores.csv", filter.getStudentAnswers());
+                if(i == 0){
+                    writeDataToFile("scores.csv", "Answers: ");
+                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
+                }
+                else {
+                    writeDataToFile("scores.csv", "Student " + (i) + "'s Answers" + "");
+                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
+                }
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
