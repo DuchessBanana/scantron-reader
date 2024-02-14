@@ -5,7 +5,9 @@ import processing.core.PImage;
 
 import javax.swing.*;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 // Author: David Dobervich (this is my edit)
 // ANOTHER EDIT.
@@ -15,27 +17,50 @@ public class OpticalMarkReaderMain {
         System.out.println("Loading pdf at " + pathToPdf);
         System.out.println("Loading pdf....");
         ArrayList<PImage> pages = PDFHelper.getPImagesFromPdf("assets/OfficialOMRSampleDoc.pdf");
-        for (int i = 0; i < pages.size(); i++) {
-            PImage in = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",i+1);
-            DImage img = new DImage(in);
-            System.out.println("Running filter on page " + (i+1) + " ....");
-            MarkReader filter = new MarkReader(12, 5);
-            filter.processImage(img);
-//            displayPage(i+1);
-            try {
-                if(i == 0){
-                    writeDataToFile("scores.csv", "Answers: ");
-                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
-                }
-                else {
-                    writeDataToFile("scores.csv", "Student " + (i) + "'s Answers" + "");
-                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+        MarkReader filter = new MarkReader(12, 5);
+        DImage page1 = filter.processPage(pages,1);
+        filter.processImage(page1);
+        ArrayList<String> answers = filter.getStudentAnswers();
+        try {
+            writeDataToFile("scores.csv", answers.toString() + "\n");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+//        for (int i = 1; i < pages.size(); i++){
+//            ArrayList<String> studentAnswers = filter.getStudentAnswers();
+//            System.out.println(compareAnswers(answers, studentAnswers));
+//        }
+//        try {
+//            writeDataToFile("scores.csv", filter.getStudentAnswers(1).toString() + "\n");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//            try {
+//                if(i == 0){
+//                    writeDataToFile("scores.csv", "Answers: ");
+//                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
+//                }
+//                else {
+//                    writeDataToFile("scores.csv", "Student " + (i) + "'s Answers" + "");
+//                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
+//                }
+//            } catch (IOException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+
+    }
+    public static String compareAnswers(ArrayList<String> answers, ArrayList<String> studentAnswers){
+        String status = " ";
+        for (int i = 0; i < 12; i++) {
+            if (answers.get(i).equals(studentAnswers.get((i)))){
+                status += ", right";
+            }
+            else {
+                status += ", wrong";
             }
         }
-
+        return status;
     }
 
     private static String fileChooser() {

@@ -1,7 +1,9 @@
 package Filters;
 
+import FileIO.PDFHelper;
 import Interfaces.PixelFilter;
 import core.DImage;
+import processing.core.PImage;
 
 import java.util.ArrayList;
 
@@ -46,6 +48,13 @@ public class MarkReader implements PixelFilter {
         return answers;
     }
 
+    public DImage processPage(ArrayList<PImage> pages, int pageNum) {
+        PImage in = pages.get(pageNum-1);
+        DImage img = new DImage(in);
+        System.out.println("Running filter on page " + pageNum + " ....");
+        return img;
+    }
+
     private int darknessPerQuestion(short[][] grid, int question) {
         double lowestSoFar = getAverageDarkness(startR, startC, width, height, grid);
         int choice = 0;
@@ -63,6 +72,7 @@ public class MarkReader implements PixelFilter {
         }
         return choice;
     }
+
 
 
     private double getAverageDarkness(int startR, int startC, int width, int height, short[][] grid) {
