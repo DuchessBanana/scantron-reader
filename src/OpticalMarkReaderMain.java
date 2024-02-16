@@ -13,55 +13,61 @@ import java.util.Arrays;
 // ANOTHER EDIT.
 public class OpticalMarkReaderMain {
     public static void main(String[] args) {
+        int numQuestions = 12;
         String pathToPdf = fileChooser();
         System.out.println("Loading pdf at " + pathToPdf);
         System.out.println("Loading pdf....");
         ArrayList<PImage> pages = PDFHelper.getPImagesFromPdf("assets/OfficialOMRSampleDoc.pdf");
-        MarkReader filter = new MarkReader(12, 5);
-        DImage page1 = filter.processPage(pages,1);
-        filter.processImage(page1);
-        ArrayList<String> answers = filter.getStudentAnswers();
-        try {
-            writeDataToFile("scores.csv", answers.toString() + "\n");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        for (int i = 0; i < pages.size(); i++) {
+            PImage in = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",i+1);
+            DImage img = new DImage(in);
+            System.out.println("Running filter on page " + (i+1) + " ....");
+            MarkReader filter = new MarkReader(12, 5);
+            filter.processImage(img);
+            try {
+                if(i == 0){
+                    String str = " ";
+                    for (int j = 1; j <= numQuestions; j++){
+                        str += ", q" + j;
+                    }
+                    writeDataToFile("scores.csv", "page, # right" + str);
+                }
+                else {
+                    ArrayList<String> studentAnswers = filter.getStudentAnswers();
+                    writeDataToFile("scores.csv", makeLine(i, getAnswers(), studentAnswers));
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
-//        for (int i = 1; i < pages.size(); i++){
-//            ArrayList<String> studentAnswers = filter.getStudentAnswers();
-//            System.out.println(compareAnswers(answers, studentAnswers));
-//        }
-//        try {
-//            writeDataToFile("scores.csv", filter.getStudentAnswers(1).toString() + "\n");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//            try {
-//                if(i == 0){
-//                    writeDataToFile("scores.csv", "Answers: ");
-//                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
-//                }
-//                else {
-//                    writeDataToFile("scores.csv", "Student " + (i) + "'s Answers" + "");
-//                    writeDataToFile("scores.csv", filter.getStudentAnswers().toString() + "\n");
-//                }
-//            } catch (IOException e) {
-//                throw new RuntimeException(e);
-//            }
-//        }
-
     }
-    public static String compareAnswers(ArrayList<String> answers, ArrayList<String> studentAnswers){
-        String status = " ";
+    private static String makeLine(int pageNum, ArrayList<String> answers, ArrayList<String> studentAnswers) {
+        String line = " ";
+        String str = " ";
+        int counter = 0;
         for (int i = 0; i < 12; i++) {
-            if (answers.get(i).equals(studentAnswers.get((i)))){
-                status += ", right";
+            if (answers.get(i).equals(studentAnswers.get(i))){
+                counter++;
+                str += ", right";
             }
-            else {
-                status += ", wrong";
+            else{
+                str += ", wrong";
             }
         }
-        return status;
+        line += pageNum + ", " + counter + str;
+        return line;
     }
+
+    public static ArrayList<String> getAnswers(){
+        ArrayList<String> answers = new ArrayList<>();
+        PImage in = PDFHelper.getPageImage("assets/OfficialOMRSampleDoc.pdf",1);
+        DImage img = new DImage(in);
+        MarkReader filter = new MarkReader(12, 5);
+        filter.processImage(img);
+        answers = filter.getStudentAnswers();
+        return answers;
+    }
+
 
     private static String fileChooser() {
         String userDirLocation = System.getProperty("user.dir");

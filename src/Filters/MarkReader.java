@@ -37,19 +37,19 @@ public class MarkReader implements PixelFilter {
     }
 
     public ArrayList<String> getStudentAnswers() {
-        ArrayList<String> answers = new ArrayList<>();
+        ArrayList<String> studentAnswers = new ArrayList<>();
         String output = "";
         for (int i = 1; i < 13; i++) {
             int currQuestion = darknessPerQuestion(grid, i-1);
 //            System.out.println(getLetterAnswer(currQuestion));
             output += "Question " + i + " answer: " + getLetterAnswer(currQuestion) + "\n";
-            answers.add(getLetterAnswer(currQuestion));
+            studentAnswers.add(getLetterAnswer(currQuestion));
         }
-        return answers;
+        return studentAnswers;
     }
 
     public DImage processPage(ArrayList<PImage> pages, int pageNum) {
-        PImage in = pages.get(pageNum-1);
+        PImage in = pages.get(pageNum);
         DImage img = new DImage(in);
         System.out.println("Running filter on page " + pageNum + " ....");
         return img;
